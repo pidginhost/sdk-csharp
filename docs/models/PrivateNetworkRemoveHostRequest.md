@@ -1,0 +1,10 @@
+# PidginHost.Sdk.Model.PrivateNetworkRemoveHostRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Server** | **string** | Server hostname or private IP | 
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+

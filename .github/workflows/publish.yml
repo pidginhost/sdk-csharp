@@ -1,0 +1,51 @@
+# Publishes the C# SDK to NuGet via trusted publishing (OIDC) -- there is no
+# long-lived NuGet API key anywhere. nuget.org trusts this repository, this
+# workflow filename and the `nuget` environment; renaming any of them breaks
+# publishing. NUGET_USER (a repository variable) is the nuget.org account
+# name that owns the trusted publishing policy, not a secret.
+#
+# This file is injected from the sdk repo (csharp/github/workflows/publish.yml)
+# by scripts/post-generate.sh. Every release replaces this repository's files
+# with the generated ones, so anything edited here directly is overwritten on
+# the next release -- change it in the sdk repo instead.
+name: Publish to NuGet
+
+on:
+  push:
+    # The GitLab publish job pushes `main` and the vX.Y.Z tag together. Trigger
+    # on the tag: only the tag marks a release.
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Pack
+        run: dotnet pack src/PidginHost.Sdk/PidginHost.Sdk.csproj -c Release -o out
+
+      # Exchanges the GitHub OIDC token for a short-lived NuGet API key.
+      - name: NuGet login (trusted publishing)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      # --skip-duplicate makes a re-run of an already published tag a no-op.
+      - name: Publish to NuGet
+        run: >-
+          dotnet nuget push "out/*.nupkg"
+          --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate

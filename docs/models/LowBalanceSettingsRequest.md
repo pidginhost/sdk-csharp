@@ -1,0 +1,12 @@
+# PidginHost.Sdk.Model.LowBalanceSettingsRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**ThresholdType** | **ThresholdTypeEnum** |  | 
+**ThresholdAmount** | **string** |  | [optional] 
+**ThresholdDays** | **int** |  | [optional] 
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+

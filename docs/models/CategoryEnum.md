@@ -1,0 +1,10 @@
+# PidginHost.Sdk.Model.CategoryEnum
+* `rescue` - Rescue & utility * `linux` - Linux installers * `bsd` - BSD & appliances * `windows` - Windows Server
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
+
